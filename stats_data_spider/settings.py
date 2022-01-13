@@ -29,7 +29,7 @@ mysql_settings = "mysql+pymysql://{user}:{passwd}@{host}/{db}?charset={charset}"
 engine = create_engine(mysql_settings)
 
 # 设置数据库表名，在这里填写名字即可，若不存在会自动创建
-write_sql_table_name = "**"
+write_sql_table_name = "gov_region"
 
 
 # 配置要爬取的年份

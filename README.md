@@ -34,6 +34,6 @@ sleep_time = 1.0
 
 
 ### 附：
-本项目在[原项目](git@github.com:Ingram7/stats_data_spider.git)上进行了部分改造，插入到mysql数据库中
+本项目在 [原项目](https://github.com/Ingram7/stats_data_spider) 上进行了部分改造，插入到mysql数据库中
 
 感谢：Ingram7的项目分享
