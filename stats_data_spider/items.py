@@ -8,28 +8,9 @@
 import scrapy
 from scrapy import Field
 
-class Class1_Item(scrapy.Item):
-    # 省级
-    name = Field()
-    # code = Field()
 
-class Class2_Item(scrapy.Item):
-    # 市级
+class Item(scrapy.Item):
     name = Field()
     code = Field()
-
-class Class3_Item(scrapy.Item):
-    # 区级
-    name = Field()
-    code = Field()
-
-class Class4_Item(scrapy.Item):
-    # 街道
-    name = scrapy.Field()
-    code = scrapy.Field()
-
-class Class5_Item(scrapy.Item):
-    # 居委会
-    name = scrapy.Field()
-    code = scrapy.Field()
-    code2 = scrapy.Field()
+    parent_name = Field()
+    parent_code = Field()

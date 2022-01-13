@@ -9,11 +9,33 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+from sqlalchemy import create_engine
+
 BOT_NAME = 'stats_data_spider'
 
 SPIDER_MODULES = ['stats_data_spider.spiders']
 NEWSPIDER_MODULE = 'stats_data_spider.spiders'
 
+# 配置mysql, 使用sqlalchemy的creteengine
+user = "**"  # mysql用户名
+passwd = "**"  # mysql用户密码
+host = "**"  # mysql ip address
+
+db = "**"  # 用于设置数据库名，这个必须提前创建好
+charset = 'utf8'  # 编码
+mysql_settings = "mysql+pymysql://{user}:{passwd}@{host}/{db}?charset={charset}".format(user=user, passwd=passwd,
+                                                                                        host=host, db=db,
+                                                                                        charset=charset)
+engine = create_engine(mysql_settings)
+
+# 设置数据库表名，在这里填写名字即可，若不存在会自动创建
+write_sql_table_name = "**"
+
+
+# 配置要爬取的年份
+region_year = 2021
+
+sleep_time = 1.0
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'stats_data_spider (+http://www.yourdomain.com)'
@@ -22,18 +44,18 @@ NEWSPIDER_MODULE = 'stats_data_spider.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 100
+CONCURRENT_REQUESTS = 1
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.25
+DOWNLOAD_DELAY = 2
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -68,19 +90,19 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 ITEM_PIPELINES = {
-    'stats_data_spider.pipelines.MongoPipeline': 302,
+    'stats_data_spider.pipelines.ScrapyStatisPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
 #AUTOTHROTTLE_DEBUG = False
 
@@ -92,8 +114,5 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-
-# MongoDb 配置
-LOCAL_MONGO_HOST = '127.0.0.1'
-LOCAL_MONGO_PORT = 27017
-DB_NAME = 'stats_data'
+# 日志等级
+LOG_LEVEL = 'DEBUG'
